@@ -1,0 +1,14 @@
+@import "tailwindcss";
+.leaflet-container {
+  background: #f6f0d7 !important; /* Matches your cream color */
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}

@@ -1,0 +1,19 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+      { "type": "Feature", "properties": { "name": "China", "TYPE": "LAND" }, "geometry": { "type": "Polygon", "coordinates": [[[127.73, 50.11], [121.57, 53.33], [116.51, 49.37], [108.81, 42.66], [94.55, 42.50], [86.99, 47.78], [80.52, 44.59], [74.52, 37.07], [80.05, 33.15], [91.75, 27.88], [100.23, 21.36], [108.01, 21.46], [117.76, 39.14], [124.31, 39.91], [127.73, 50.11]]] } },
+      { "type": "Feature", "properties": { "name": "India", "TYPE": "LAND" }, "geometry": { "type": "Polygon", "coordinates": [[[77.83, 35.49], [81.04, 30.31], [88.16, 26.54], [96.12, 28.31], [92.17, 21.07], [78.96, 7.82], [68.17, 23.57], [74.45, 33.00], [77.83, 35.49]]] } },
+      { "type": "Feature", "properties": { "name": "United States", "TYPE": "LAND" }, "geometry": { "type": "Polygon", "coordinates": [[[-124.73, 48.38], [-100.00, 49.00], [-66.95, 44.82], [-81.16, 25.12], [-97.14, 25.86], [-117.12, 32.53], [-124.73, 48.38]]] } },
+      { "type": "Feature", "properties": { "name": "Russia", "TYPE": "LAND" }, "geometry": { "type": "Polygon", "coordinates": [[[31.60, 52.15], [28.16, 59.46], [32.14, 69.96], [100.1, 77.1], [170.3, 69.4], [131.0, 42.6], [82.8, 51.5], [50.1, 51.0], [31.60, 52.15]]] } },
+      { "type": "Feature", "properties": { "name": "Brazil", "TYPE": "LAND" }, "geometry": { "type": "Polygon", "coordinates": [[[-53.37, -33.75], [-73.98, -9.41], [-60.01, 4.52], [-34.79, -7.11], [-53.37, -33.75]]] } },
+      { "type": "Feature", "properties": { "name": "Australia", "TYPE": "COASTAL" }, "geometry": { "type": "Polygon", "coordinates": [[[113.15, -24.88], [123.61, -12.12], [142.51, -10.68], [153.63, -28.52], [146.31, -43.63], [113.15, -24.88]]] } },
+      { "type": "Feature", "properties": { "name": "Canada", "TYPE": "LAND" }, "geometry": { "type": "Polygon", "coordinates": [[[-136.45, 68.86], [-62.00, 47.00], [-120.00, 49.00], [-141.00, 60.30], [-141.00, 69.64], [-136.45, 68.86]]] } },
+      { "type": "Feature", "properties": { "name": "France", "TYPE": "LAND" }, "geometry": { "type": "Polygon", "coordinates": [[[-4.79, 48.41], [2.55, 51.09], [8.23, 49.00], [7.31, 43.68], [-1.78, 43.36], [-4.79, 48.41]]] } },
+      { "type": "Feature", "properties": { "name": "Germany", "TYPE": "LAND" }, "geometry": { "type": "Polygon", "coordinates": [[[6.02, 50.77], [8.68, 54.81], [14.12, 53.75], [15.04, 51.13], [13.84, 48.77], [8.00, 47.53], [6.02, 50.77]]] } },
+      { "type": "Feature", "properties": { "name": "Japan", "TYPE": "COASTAL" }, "geometry": { "type": "Polygon", "coordinates": [[[129.74, 30.99], [145.81, 43.39], [140.35, 35.13], [129.74, 30.99]]] } },
+      { "type": "Feature", "properties": { "name": "South Africa", "TYPE": "LAND" }, "geometry": { "type": "Polygon", "coordinates": [[[16.45, -28.58], [20.00, -22.00], [31.50, -22.30], [32.89, -26.86], [31.00, -31.00], [18.00, -34.80], [16.45, -28.58]]] } },
+      { "type": "Feature", "properties": { "name": "United Kingdom", "TYPE": "COASTAL" }, "geometry": { "type": "Polygon", "coordinates": [[[-7.57, 50.15], [-5.00, 58.63], [1.76, 52.48], [-7.57, 50.15]]] } },
+      { "type": "Feature", "properties": { "name": "Mexico", "TYPE": "LAND" }, "geometry": { "type": "Polygon", "coordinates": [[[-117.12, 32.53], [-97.14, 25.86], [-86.71, 21.16], [-92.22, 14.53], [-117.12, 32.53]]] } },
+      { "type": "Feature", "properties": { "name": "Argentina", "TYPE": "LAND" }, "geometry": { "type": "Polygon", "coordinates": [[[-67.24, -22.87], [-54.46, -25.58], [-58.41, -34.83], [-68.31, -54.89], [-73.18, -48.77], [-67.24, -22.87]]] } }
+    ]
+  }
