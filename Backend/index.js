@@ -1,7 +1,18 @@
-//Imported Files
+//Imported File for database
 require("./database/connection")
-const saveData = require('./routes/saveData')
+
+// Imported files for saveData and getData for excell file
+const saveData = require('./routes/saveDataRoute')
 const getData = require('./routes/getDataRoute')
+
+// Imported Map routes for wards and districts
+const getWards = require('./routes/getWardRoute')
+const getDistricts = require('./routes/getDistrictRoute')
+
+//Imported mistral routes
+const getResponse = require('./routes/mistralRoutes/mistralRoutes')
+
+
 // Library imports
 const express = require('express')
 const cors = require('cors')
@@ -19,6 +30,11 @@ app.use(status())
 //Routes
 app.use('/data', saveData, getData)
 
+//Map Routes
+app.use('/map', getWards, getDistricts)
+
+//Mistral ai routes
+app.use('/ai', getResponse)
 
 //Server Running
 app.listen(process.env.PORT, () => {

@@ -92,7 +92,7 @@ const Chart = () => {
       <SideBar isOpen={isOpen} setIsOpen={setIsOpen} />
 
       <main className="flex-1 flex flex-col items-center justify-center p-4 md:p-8 transition-all duration-300">
-        <div className="w-full max-w-6xl bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl shadow-2xl p-6 md:p-8">
+        <div className="w-full max-w-7xl bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl shadow-2xl p-6 md:p-8">
           <div className="text-center mb-6">
             <h1 className="text-white text-xl md:text-2xl font-black tracking-tighter uppercase">
               Utilities/Service Providers{" "}
@@ -104,7 +104,7 @@ const Chart = () => {
             {loading ? (
               <LoadingSpinner />
             ) : (
-              <ResponsiveContainer width="100%" height={580}>
+              <ResponsiveContainer width="100%" height={680}>
                 <ScatterChart
                   margin={{ top: 40, right: 120, left: 60, bottom: 60 }}
                 >
@@ -154,7 +154,14 @@ const Chart = () => {
                     y1={0}
                     y2={30}
                     fill="red"
-                    fillOpacity={1}
+                    label={{
+                      value: "Very Poor",
+                      fontWeight: "bold",
+                      position: "insideBottomRight",
+                      fontSize: 14,
+                      fill: "white",
+                    }}
+                    fillOpacity={0.7}
                   />
                   {/**Pink */}
                   <ReferenceArea
@@ -163,6 +170,13 @@ const Chart = () => {
                     y1={0}
                     y2={50}
                     fill="#fe62c7"
+                    label={{
+                      value: "Poor",
+                      fontWeight: "bold",
+                      position: "insideBottomRight",
+                      fontSize: 14,
+                      fill: "white",
+                    }}
                     fillOpacity={0.6}
                   />
                   {/**Gray first */}
@@ -172,6 +186,13 @@ const Chart = () => {
                     y1={50}
                     y2={100}
                     fill="gray"
+                    label={{
+                      value: "Inactive",
+                      fontWeight: "bold",
+                      position: "center",
+                      fontSize: 14,
+                      fill: "white",
+                    }}
                     fillOpacity={0.6}
                   />
                   {/**Botton right green */}
@@ -180,8 +201,15 @@ const Chart = () => {
                     x2={100}
                     y1={0}
                     y2={50}
-                    fill="#84cc16"
-                    fillOpacity={0.2}
+                    fill="green"
+                    label={{
+                      value: "Active",
+                      fontWeight: "bold",
+                      position: "insideBottomRight",
+                      fontSize: 14,
+                      fill: "white",
+                    }}
+                    fillOpacity={0.7}
                   />
                   {/**Yellow */}
                   <ReferenceArea
@@ -190,7 +218,13 @@ const Chart = () => {
                     y1={50}
                     y2={100}
                     fill="Yellow"
-                    fillOpacity={0.4}
+                    label={{
+                      value: "Improving",
+                      fontWeight: "bold",
+                      position: "insideBottomRight",
+                      fontSize: 14,
+                    }}
+                    fillOpacity={0.7}
                   />
                   {/**Green */}
                   <ReferenceArea
@@ -199,6 +233,12 @@ const Chart = () => {
                     y1={70}
                     y2={100}
                     fill="#22c55e"
+                    label={{
+                      value: "Improved",
+                      fontWeight: "bold",
+                      position: "insideBottomRight",
+                      fontSize: 14,
+                    }}
                     fillOpacity={0.6}
                   />
                   {/**Cyan */}
@@ -208,6 +248,13 @@ const Chart = () => {
                     y1={80}
                     y2={100}
                     fill="Cyan"
+                    label={{
+                      value: "Just Efficient",
+                      position: "insideBottomRight", // Options: 'top', 'left', 'right', 'bottom', 'inside', etc.
+                      fill: "white", // Text Color
+                      fontSize: 14, // Font Size
+                      fontWeight: "bold",
+                    }}
                     fillOpacity={0.6}
                   />
                   {/**Gray */}
@@ -216,8 +263,15 @@ const Chart = () => {
                     x2={100}
                     y1={90}
                     y2={100}
-                    fill="#3b82f6"
-                    fillOpacity={0.6}
+                    fill="gray"
+                    label={{
+                      value: "Moderately Efficient",
+                      position: "insideBottomRight",
+                      fill: "white",
+                      fontWeight: "bold",
+                      fontSize: 14,
+                    }}
+                    fillOpacity={0.8}
                   />
                   {/**Blue */}
                   <ReferenceArea
@@ -226,19 +280,20 @@ const Chart = () => {
                     y1={95}
                     y2={100}
                     fill="Blue"
+                    label={{
+                      value: "Highly Efficient",
+                      position: "top",
+                      fill: "blue",
+                      fontWeight: "bold",
+                      fontSize: 14,
+                    }}
                     fillOpacity={0.8}
                   />
                   <Tooltip
                     content={<CustomTooltip />}
                     cursor={{ strokeDasharray: "3 3" }}
                   />
-                  {/* Career Path (Pink line) */}
-                  <Scatter
-                    data={plannedPath}
-                    fill="#d946ef"
-                    line={{ stroke: "#701a75", strokeWidth: 2 }}
-                    shape="square"
-                  />
+
                   {/* LIVE DATA PLOT (Blue squares for WSUCs) */}
                   <Scatter
                     name="WSUC Providers"

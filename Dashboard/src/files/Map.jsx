@@ -9,7 +9,8 @@ import {
 } from "react-leaflet";
 import L from "leaflet";
 import SideBar from "../components/SideBar";
-import CustomSelect from "../components/CustomSelect";
+// import CustomSelect from "../components/CustomSelect";
+import MapDataLayer from "../components/MapDataLayer";
 
 // Styles
 import "leaflet/dist/leaflet.css";
@@ -91,30 +92,30 @@ const MapController = ({
     }
   }, [feature, map]);
 
-  useEffect(() => {
-    if (!searchQuery) return;
-    const performSearch = async () => {
-      try {
-        const response = await fetch(
-          `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
-            searchQuery
-          )}&polygon_geojson=1&limit=1`
-        );
-        const data = await response.json();
-        if (data && data.length > 0 && data[0].geojson) {
-          const geometry = data[0].geojson;
-          setDistrictBoundary(geometry);
-          map.flyToBounds(L.geoJSON(geometry).getBounds(), {
-            padding: [50, 50],
-            duration: 1.5,
-          });
-        }
-      } catch (err) {
-        console.error("Search failed:", err);
-      }
-    };
-    performSearch();
-  }, [searchQuery, map, setDistrictBoundary]);
+  // useEffect(() => {
+  //   if (!searchQuery) return;
+  //   const performSearch = async () => {
+  //     try {
+  //       const response = await fetch(
+  //         `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+  //           searchQuery
+  //         )}&polygon_geojson=1&limit=1`
+  //       );
+  //       const data = await response.json();
+  //       if (data && data.length > 0 && data[0].geojson) {
+  //         const geometry = data[0].geojson;
+  //         setDistrictBoundary(geometry);
+  //         map.flyToBounds(L.geoJSON(geometry).getBounds(), {
+  //           padding: [50, 50],
+  //           duration: 1.5,
+  //         });
+  //       }
+  //     } catch (err) {
+  //       console.error("Search failed:", err);
+  //     }
+  //   };
+  //   performSearch();
+  // }, [searchQuery, map, setDistrictBoundary]);
 
   return null;
 };
@@ -153,18 +154,11 @@ const Map = () => {
       <SideBar isOpen={isOpen} setIsOpen={setIsOpen} />
 
       <main className="flex-1 relative h-full flex flex-col">
-        {/* Floating CustomSelect */}
-        <CustomSelect
-          onExplore={handleExplore}
-          filters={filters}
-          setFilters={setFilters}
-        />
-
         <MapContainer
           center={[28.3949, 84.124]}
           zoom={7}
-          zoomControl={false}
-          style={{ height: "100%", width: "100%", backgroundColor: colors.bg }}
+          preferCanvas={true} // <--- MANDATORY for 6,000+ polygons
+          style={{ height: "100%", width: "100%" }}
         >
           {/* Minimalist CartoDB Tiles */}
           <TileLayer url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png" />
@@ -175,7 +169,7 @@ const Map = () => {
             searchQuery={searchTrigger}
             setDistrictBoundary={setDistrictBoundary}
           />
-
+          <MapDataLayer />
           <NepalMask feature={nepalFeature} maskColor={colors.bg} />
 
           <GeoJSON

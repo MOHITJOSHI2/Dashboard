@@ -1,7 +1,7 @@
 const { extractData } = require('../functions/dataExtractor')
 const WSUC = require('../models/WSUC')
 
-exports.saveData = async (req, res) => {
+const saveData = async (req, res) => {
     try {
         // Extract Data is function
         const getData = extractData()
@@ -39,3 +39,5 @@ exports.saveData = async (req, res) => {
         res.status(500).json({ error: "Server Error" })
     }
 }
+
+module.exports = { saveData }

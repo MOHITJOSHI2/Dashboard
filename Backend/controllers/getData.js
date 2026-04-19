@@ -1,6 +1,6 @@
 const WSUC = require('../models/WSUC')
 
-exports.getData = async (req, res) => {
+const getData = async (req, res) => {
     try {
         const data = await WSUC.find()
 
@@ -16,3 +16,5 @@ exports.getData = async (req, res) => {
         console.log("Error at getData \n", error)
     }
 }
+
+module.exports = { getData }
