@@ -61,7 +61,7 @@ const Chart = () => {
     async function getData() {
       try {
         setLoading(true);
-        const req = await fetch("http://localhost:3000/data/getData");
+        const req = await fetch("https://dashboard-1-8c4w.onrender.com/data/getData");
         const res = await req.json();
         if (req.ok && res.data) {
           // Process data: filter items that have actual coordinates
