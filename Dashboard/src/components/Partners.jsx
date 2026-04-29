@@ -12,11 +12,7 @@ const partners = [
     icon: worldBank,
     progress: "80%",
     barColor: "bg-blue-400",
-    tags: [
-      { text: "Methodology Validation", pos: "-top-8 -left-8" },
-      { text: "Workshop Support", pos: "top-12 -right-12" },
-      { text: "$1.5M Commitment", pos: "-bottom-4 left-4" },
-    ],
+    tags: [{ text: "$1.5M Commitment", pos: "top-0 -left-10" }],
   },
   {
     name: "WaterAid",
@@ -27,8 +23,9 @@ const partners = [
     barColor: "bg-purple-400",
     tags: [
       { text: "Field Pilots", pos: "-top-10 left-10" },
-      { text: "Data Integrity", pos: "top-8 -right-14" },
-      { text: "Province Workshops", pos: "bottom-0 -left-10" },
+      { text: "Live Dashboard", pos: "top-10 -right-10" },
+      { text: "Methodology Validation", pos: "top-30 -left-8" },
+      { text: "Workshop Support", pos: "top-60 -right-12" },
     ],
   },
   {
@@ -40,8 +37,7 @@ const partners = [
     barColor: "bg-indigo-400",
     tags: [
       { text: "GIS Mapping", pos: "-top-6 -left-12" },
-      { text: "Live Dashboard", pos: "top-10 -right-10" },
-      { text: "Tech Training", pos: "-bottom-6 right-6" },
+      { text: "Tech Training", pos: "bottom-20 -right-10" },
     ],
   },
 ];

@@ -1,234 +1,344 @@
-import React, { useState, useEffect } from "react";
-import {
-  MapContainer,
-  TileLayer,
-  GeoJSON,
-  useMap,
-  Marker,
-  Popup,
-} from "react-leaflet";
-import L from "leaflet";
+// import React, { useState, useEffect } from "react";
+// import {
+//   MapContainer,
+//   TileLayer,
+//   Marker,
+//   Popup,
+//   Tooltip,
+//   GeoJSON,
+// } from "react-leaflet";
+// import L from "leaflet";
+// import "leaflet/dist/leaflet.css";
+
+import { useState } from "react";
 import SideBar from "../components/SideBar";
-// import CustomSelect from "../components/CustomSelect";
-import MapDataLayer from "../components/MapDataLayer";
 
-// Styles
-import "leaflet/dist/leaflet.css";
-import boundaryData from "../data/boundary.json";
+// //componets
+// import Sidebar from "../components/SideBar";
 
-// Fix for default marker icons
-import markerIcon from "leaflet/dist/images/marker-icon.png";
-import markerShadow from "leaflet/dist/images/marker-shadow.png";
+// // APIs
+// import { fetchOperators } from "../api/operator";
+// import { fetchWards } from "../api/map";
 
-let DefaultIcon = L.icon({
-  iconUrl: markerIcon,
-  shadowUrl: markerShadow,
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-});
-L.Marker.prototype.options.icon = DefaultIcon;
+// // Constants
+// const PROVINCES = [
+//   "Koshi",
+//   "Madhesh",
+//   "Bagmati",
+//   "Gandaki",
+//   "Lumbini",
+//   "Karnali",
+//   "Sudurpashchim",
+// ];
 
-// --- 1. NEPAL MASK (Glassmorphic Outer) ---
-const NepalMask = ({ feature, maskColor }) => {
-  if (!feature || !feature.geometry) return null;
-  const worldCoords = [
-    [-180, 90],
-    [-180, -90],
-    [180, -90],
-    [180, 90],
-    [-180, 90],
-  ];
-  const nepalRing = feature.geometry.coordinates[0];
-  const maskData = {
-    type: "Feature",
-    geometry: { type: "Polygon", coordinates: [worldCoords, nepalRing] },
-  };
+// // Leaflet icon fix
+// import icon from "leaflet/dist/images/marker-icon.png";
+// import iconShadow from "leaflet/dist/images/marker-shadow.png";
 
-  return (
-    <GeoJSON
-      data={maskData}
-      style={{
-        fillColor: maskColor,
-        fillOpacity: 0.9,
-        color: "none",
-        weight: 0,
-      }}
-      interactive={true}
-      eventHandlers={{
-        mousedown: (e) => L.DomEvent.stopPropagation(e),
-        click: (e) => L.DomEvent.stopPropagation(e),
-      }}
-    />
-  );
-};
+// let DefaultIcon = L.icon({
+//   iconUrl: icon,
+//   shadowUrl: iconShadow,
+//   iconSize: [25, 41],
+//   iconAnchor: [12, 41],
+// });
+// L.Marker.prototype.options.icon = DefaultIcon;
 
-// --- 2. MAP CONTROLLER (Resize & Search Logic) ---
-const MapController = ({
-  isOpen,
-  feature,
-  searchQuery,
-  setDistrictBoundary,
-}) => {
-  const map = useMap();
+// // 🔥 Marker with ward count
+// const getMarkerIcon = (status, wardCount) => {
+//   let color = "#94a3b8";
 
-  useEffect(() => {
-    const interval = setInterval(() => map.invalidateSize(), 10);
-    const timer = setTimeout(() => {
-      clearInterval(interval);
-      map.invalidateSize();
-    }, 400);
-    return () => {
-      clearInterval(interval);
-      clearTimeout(timer);
-    };
-  }, [isOpen, map]);
+//   return L.divIcon({
+//     className: "custom-marker",
+//     html: `
+//       <div style="
+//         background:${color};
+//         width:32px;
+//         height:32px;
+//         border-radius:50%;
+//         display:flex;
+//         align-items:center;
+//         justify-content:center;
+//         color:white;
+//         font-size:12px;
+//         font-weight:bold;
+//         border:3px solid white;
+//         box-shadow:0 2px 6px rgba(0,0,0,0.3);
+//       ">
+//         ${wardCount}
+//       </div>
+//     `,
+//     iconSize: [32, 32],
+//     iconAnchor: [16, 16],
+//   });
+// };
 
-  useEffect(() => {
-    if (feature) {
-      const bounds = L.geoJSON(feature).getBounds();
-      map.fitBounds(bounds, { padding: [20, 20], animate: false });
-      map.setMaxBounds(bounds);
-      map.setMinZoom(map.getBoundsZoom(bounds));
-    }
-  }, [feature, map]);
+// export default function Map() {
+//   const [operators, setOperators] = useState([]);
+//   const [wardsGeoJSON, setWardsGeoJSON] = useState(null);
+//   const [selectedProject, setSelectedProject] = useState(null);
+//   const [loading, setLoading] = useState(true);
+//   const [selectedProvinces, setSelectedProvinces] = useState(PROVINCES);
+//   const [isOpen, setIsOpen] = useState(true);
 
-  // useEffect(() => {
-  //   if (!searchQuery) return;
-  //   const performSearch = async () => {
-  //     try {
-  //       const response = await fetch(
-  //         `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
-  //           searchQuery
-  //         )}&polygon_geojson=1&limit=1`
-  //       );
-  //       const data = await response.json();
-  //       if (data && data.length > 0 && data[0].geojson) {
-  //         const geometry = data[0].geojson;
-  //         setDistrictBoundary(geometry);
-  //         map.flyToBounds(L.geoJSON(geometry).getBounds(), {
-  //           padding: [50, 50],
-  //           duration: 1.5,
-  //         });
-  //       }
-  //     } catch (err) {
-  //       console.error("Search failed:", err);
-  //     }
-  //   };
-  //   performSearch();
-  // }, [searchQuery, map, setDistrictBoundary]);
+//   useEffect(() => {
+//     const loadData = async () => {
+//       try {
+//         setLoading(true);
 
-  return null;
-};
+//         const [opRes, wardRes] = await Promise.all([
+//           fetchOperators(),
+//           fetchWards(),
+//         ]);
 
-// --- 3. MAIN MAP PAGE ---
-const Map = () => {
+//         const wardFeatures = wardRes.features || [];
+//         setWardsGeoJSON(wardRes);
+
+//         const matched = opRes.data
+//           .map((op) => {
+//             const dist = op.Location?.District_Name?.toLowerCase().trim() || "";
+//             const muni =
+//               op.Location?.Municipality_Name?.toLowerCase().trim() || "";
+
+//             // ✅ Robust ward parsing
+//             let targetWards = [];
+//             if (Array.isArray(op.Wards_Covered)) {
+//               targetWards = op.Wards_Covered.flatMap((w) => w.split(","))
+//                 .map((n) => parseInt(n.trim()))
+//                 .filter((n) => !isNaN(n));
+//             }
+
+//             // ✅ Match wards
+//             const matchingFeatures = wardFeatures.filter((f) => {
+//               const fDist = f.properties.DISTRICT?.toLowerCase().trim();
+//               const fMuni = f.properties.GaPa_NaPa?.toLowerCase().trim();
+//               const fWardNo = f.properties.NEW_WARD_N;
+
+//               const isSameArea = fDist === dist && fMuni === muni;
+
+//               if (targetWards.length > 0) {
+//                 return isSameArea && targetWards.includes(fWardNo);
+//               }
+//               return isSameArea;
+//             });
+
+//             // ✅ Centroid calc
+//             let lat = 0,
+//               lng = 0,
+//               count = 0;
+
+//             matchingFeatures.forEach((f) => {
+//               const coords =
+//                 f.geometry.type === "Polygon"
+//                   ? [f.geometry.coordinates[0]]
+//                   : f.geometry.coordinates;
+
+//               coords.forEach((ring) => {
+//                 ring.forEach((p) => {
+//                   lng += p[0];
+//                   lat += p[1];
+//                   count++;
+//                 });
+//               });
+//             });
+
+//             return {
+//               ...op,
+//               lat: count ? lat / count : null,
+//               lng: count ? lng / count : null,
+//               foundWardsCount: matchingFeatures.length,
+//               actualWardsRequested: targetWards,
+//               matchedWards: matchingFeatures.map((f) => ({
+//                 wardNo: f.properties.NEW_WARD_N,
+//                 municipality: f.properties.GaPa_NaPa,
+//                 district: f.properties.DISTRICT,
+//                 density: f.properties.density_final,
+//               })),
+//             };
+//           })
+//           .filter((op) => op.lat !== null);
+
+//         setOperators(matched);
+//       } catch (err) {
+//         console.error(err);
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+
+//     loadData();
+//   }, []);
+
+//   const mapCenter =
+//     operators.length > 0
+//       ? [operators[0].lat, operators[0].lng]
+//       : [28.3949, 84.124];
+
+//   if (loading) {
+//     return (
+//       <div className="h-full flex items-center justify-center font-bold text-slate-400">
+//         Loading Map...
+//       </div>
+//     );
+//   }
+
+//   return (
+//     <div className="h-[80vh] flex gap-4 p-4 font-sans">
+//       {/* Sidebar */}
+//       <div className="">
+//         <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
+//       </div>
+//       <div className="w-64 bg-white p-5 rounded-xl shadow border">
+//         <h3 className="font-bold text-sm mb-4 uppercase">Province Filters</h3>
+
+//         {PROVINCES.map((p) => (
+//           <label key={p} className="flex gap-2 text-xs mb-1 cursor-pointer">
+//             <input
+//               type="checkbox"
+//               checked={selectedProvinces.includes(p)}
+//               onChange={() =>
+//                 setSelectedProvinces((prev) =>
+//                   prev.includes(p) ? prev.filter((x) => x !== p) : [...prev, p]
+//                 )
+//               }
+//             />
+//             {p}
+//           </label>
+//         ))}
+//       </div>
+
+//       {/* Map */}
+//       <div className="flex-1 relative rounded-xl overflow-hidden shadow">
+//         <MapContainer
+//           center={mapCenter}
+//           zoom={7}
+//           style={{ height: "100%", width: "100%" }}
+//         >
+//           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+
+//           {/* Ward polygons */}
+//           {wardsGeoJSON && (
+//             <GeoJSON
+//               data={wardsGeoJSON}
+//               style={{
+//                 color: "transparent",
+//                 weight: 0,
+//                 fillColor: "#3b82f6",
+//                 fillOpacity: 0.05,
+//               }}
+//             />
+//           )}
+
+//           {/* Markers */}
+//           {operators
+//             .filter((op) =>
+//               selectedProvinces.includes(op.Location?.Province_Name)
+//             )
+//             .map((op) => (
+//               <Marker
+//                 key={op._id}
+//                 position={[op.lat, op.lng]}
+//                 icon={getMarkerIcon(op.status, op.foundWardsCount)}
+//               >
+//                 <Tooltip sticky>
+//                   <div className="text-xs">
+//                     <strong>{op.WSUC_Name}</strong>
+//                     <br />
+//                     Wards: {op.foundWardsCount}
+//                   </div>
+//                 </Tooltip>
+
+//                 <Popup>
+//                   <div className="text-center">
+//                     <p className="font-bold">{op.WSUC_Name}</p>
+//                     <button
+//                       onClick={() => setSelectedProject(op)}
+//                       className="mt-2 bg-blue-600 text-white px-3 py-1 rounded text-xs"
+//                     >
+//                       View Analytics
+//                     </button>
+//                   </div>
+//                 </Popup>
+//               </Marker>
+//             ))}
+//         </MapContainer>
+
+//         {/* 🔥 Analytics Panel */}
+//         {selectedProject && (
+//           <div className="absolute top-4 right-4 w-80 bg-white shadow-2xl rounded-xl p-4 z-[1000] border">
+//             <div className="flex justify-between mb-2">
+//               <h2 className="font-bold text-sm text-blue-900">
+//                 {selectedProject.WSUC_Name}
+//               </h2>
+//               <button onClick={() => setSelectedProject(null)}>✕</button>
+//             </div>
+
+//             <div className="text-xs space-y-1 mb-3">
+//               <p>
+//                 <strong>Province:</strong>{" "}
+//                 {selectedProject.Location?.Province_Name}
+//               </p>
+//               <p>
+//                 <strong>District:</strong>{" "}
+//                 {selectedProject.Location?.District_Name}
+//               </p>
+//               <p>
+//                 <strong>Municipality:</strong>{" "}
+//                 {selectedProject.Location?.Municipality_Name}
+//               </p>
+//             </div>
+
+//             {/* KPI */}
+//             <div className="grid grid-cols-2 gap-2 mb-3">
+//               <div className="bg-gray-100 p-2 text-center rounded">
+//                 <p className="text-[10px]">SPI</p>
+//                 <p className="font-bold text-blue-600">
+//                   {selectedProject.Summary_Index?.SPI || 0}%
+//                 </p>
+//               </div>
+
+//               <div className="bg-gray-100 p-2 text-center rounded">
+//                 <p className="text-[10px]">CPI</p>
+//                 <p className="font-bold text-green-600">
+//                   {selectedProject.Summary_Index?.CPI || 0}%
+//                 </p>
+//               </div>
+//             </div>
+
+//             {/* Wards */}
+//             <div>
+//               <h3 className="text-xs font-bold mb-2">
+//                 Wards Covered ({selectedProject.matchedWards.length})
+//               </h3>
+
+//               <div className="max-h-40 overflow-y-auto text-xs space-y-1">
+//                 {selectedProject.matchedWards.map((w, i) => (
+//                   <div key={i} className="border p-2 rounded bg-gray-50">
+//                     <p>
+//                       <strong>Ward:</strong> {w.wardNo}
+//                     </p>
+//                     <p>
+//                       <strong>Municipality:</strong> {w.municipality}
+//                     </p>
+//                     <p>
+//                       <strong>Density:</strong> {w.density}
+//                     </p>
+//                   </div>
+//                 ))}
+//               </div>
+//             </div>
+//           </div>
+//         )}
+//       </div>
+//     </div>
+//   );
+// }
+
+export default function Map() {
   const [isOpen, setIsOpen] = useState(true);
-  const [nepalFeature] = useState(boundaryData.features[0]);
-  const [filters, setFilters] = useState({ province: "", district: "" });
-  const [searchTrigger, setSearchTrigger] = useState("");
-  const [districtBoundary, setDistrictBoundary] = useState(null);
-
-  const colors = {
-    bg: "#F8FAFC",
-    emerald: "#10B981",
-    slate: "#0F172A",
-    highlight: "#10B981", // Matching emerald theme
-  };
-
-  const handleExplore = () => {
-    setDistrictBoundary(null);
-    if (filters.district) {
-      setSearchTrigger(`${filters.district} District, Nepal`);
-    } else if (filters.province) {
-      setSearchTrigger(`${filters.province} Province, Nepal`);
-    } else {
-      setSearchTrigger("");
-    }
-  };
-
   return (
-    <div
-      className="flex h-screen w-full overflow-hidden"
-      style={{ backgroundColor: colors.bg }}
-    >
+    <div className="flex">
       <SideBar isOpen={isOpen} setIsOpen={setIsOpen} />
-
-      <main className="flex-1 relative h-full flex flex-col">
-        <MapContainer
-          center={[28.3949, 84.124]}
-          zoom={7}
-          preferCanvas={true} // <--- MANDATORY for 6,000+ polygons
-          style={{ height: "100%", width: "100%" }}
-        >
-          {/* Minimalist CartoDB Tiles */}
-          <TileLayer url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png" />
-
-          <MapController
-            isOpen={isOpen}
-            feature={nepalFeature}
-            searchQuery={searchTrigger}
-            setDistrictBoundary={setDistrictBoundary}
-          />
-          <MapDataLayer />
-          <NepalMask feature={nepalFeature} maskColor={colors.bg} />
-
-          <GeoJSON
-            data={nepalFeature}
-            style={{ color: colors.slate, weight: 1.5, fillOpacity: 0 }}
-          />
-
-          {districtBoundary && (
-            <GeoJSON
-              key={JSON.stringify(districtBoundary)}
-              data={districtBoundary}
-              style={{
-                color: colors.highlight,
-                weight: 3,
-                dashArray: "6, 8",
-                fillColor: colors.highlight,
-                fillOpacity: 0.1,
-              }}
-            />
-          )}
-        </MapContainer>
-      </main>
-
-      {/* Modern Info Panel */}
-      <aside className="w-80 bg-white border-l border-slate-100 p-8 flex flex-col gap-6 z-[1001] shadow-[-10px_0_30px_rgba(0,0,0,0.02)]">
-        <div>
-          <span className="text-emerald-500 font-black text-[10px] uppercase tracking-widest">
-            Region Focus
-          </span>
-          <h2 className="text-3xl font-black text-slate-900 tracking-tighter mt-1">
-            Nepal Map
-          </h2>
-        </div>
-
-        <div className="p-6 rounded-3xl bg-slate-50 border border-slate-100 flex flex-col gap-1">
-          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-            Current Selection
-          </p>
-          <p className="text-lg font-black text-slate-800">
-            {filters.district
-              ? `${filters.district}`
-              : filters.province
-              ? filters.province
-              : "Entire Country"}
-          </p>
-          {filters.province && (
-            <p className="text-xs font-semibold text-emerald-600 italic">
-              Province: {filters.province}
-            </p>
-          )}
-        </div>
-
-        <div className="mt-auto p-4 rounded-2xl bg-emerald-50 border border-emerald-100 text-xs font-medium text-emerald-800 leading-relaxed">
-          The map view is automatically constrained to the national boundaries
-          of Nepal.
-        </div>
-      </aside>
+      <h1 className="text-2xl m-auto">Geo-coded Data Under Construction</h1>
     </div>
   );
-};
-
-export default Map;
+}

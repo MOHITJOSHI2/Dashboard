@@ -3,6 +3,7 @@ import Sidebar from "../components/SideBar";
 import RoadMap from "../components/RoadMap";
 import Leaderboard from "../components/Leaderboard";
 import Partners from "../components/Partners";
+import Government from "../assets/nepal.png";
 
 const MainPage = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -34,7 +35,15 @@ const MainPage = () => {
         {/* HERO SECTION - FORCED TO FULL HEIGHT */}
         <section className="min-h-[calc(100vh-40px)] flex flex-col justify-center p-6 lg:p-20 max-w-7xl mx-auto">
           {/* Glass Tag Container */}
-          <div className="inline-block w-fit px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 mb-6">
+            <span className="w-[50px] h-[40px] flex-shrink-0">
+              <img
+                src={Government}
+                className="w-full h-full object-contain"
+                alt=""
+              />
+            </span>
+
             <span className="text-[10px] font-bold tracking-widest text-blue-200 uppercase">
               DWSSM / SRIMS
             </span>
