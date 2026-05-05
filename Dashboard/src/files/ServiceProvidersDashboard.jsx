@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion"; // Imported for smoothn
 import ServiceProvidersCard from "../components/ServiceProvidersCard";
 import SideBar from "../components/SideBar";
 import LoadingSpinner from "../components/LoadingSpinner";
+import { fetchOperators } from "../api/operator";
 
 const ServiceProvidersDashboard = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -13,21 +14,8 @@ const ServiceProvidersDashboard = () => {
     async function getData() {
       try {
         setLoading(true);
-        const req = await fetch("http://localhost:3000/data/getData", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        const res = await req.json();
-        if (req.ok) {
-          if (res.message && res.data) {
-            setData(res.data);
-          } else {
-            console.log(res.message);
-          }
-        }
+        const res = await fetchOperators();
+        setData(res.data);
       } catch (error) {
         console.log("Error at service Provider dashboard \n", error);
       } finally {

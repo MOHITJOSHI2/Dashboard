@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { GeoJSON } from "react-leaflet";
+import { fetchWards } from "../api/map";
 
 const MapDataLayer = () => {
   const [geoData, setGeoData] = useState(null);
@@ -7,7 +8,7 @@ const MapDataLayer = () => {
   useEffect(() => {
     const loadAllWards = async () => {
       try {
-        const response = await fetch("http://localhost:3000/map/getWards");
+        const response = await fetchWards();
         const data = await response.json();
         setGeoData(data);
       } catch (error) {

@@ -64,7 +64,7 @@ const ServiceProvidersCard = ({ data }) => {
                     SPI Progress
                   </p>
                   <p className="text-4xl font-black text-white">
-                    {item.Summary_Index?.SPI?.toFixed(2)}%
+                    {item.Summary_Index?.SPI?.toFixed(2) ?? "0"}%
                   </p>
                 </div>
                 <div className="text-blue-400 font-bold text-sm">

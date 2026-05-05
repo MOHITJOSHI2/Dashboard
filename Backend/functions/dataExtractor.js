@@ -4,7 +4,7 @@ const path = require("path")
 
 const extractData = () => {
 
-    const filePath = path.join(__dirname, '../DWSSM_KPI_GIS_Ready.xlsx')
+    const filePath = path.join(__dirname, '../DWSSM_KPI_GIS_Ready .xlsx')
     const workbook = xlsx.readFile(filePath)
 
     let WSUCData = {}
@@ -47,7 +47,7 @@ const extractData = () => {
     // A5 → A72 (WSUC IDs)
     const idRange = {
         s: { r: 4, c: 0 },
-        e: { r: 70, c: 0 }
+        e: { r: 78, c: 0 }
     }
 
     const ids = xlsx.utils.sheet_to_json(Summary_Index_Sheet, {
